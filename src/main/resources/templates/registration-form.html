@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}" href="/../static/css/register.css">
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Strona główna</a>
+    <a href="/login">Logowanie</a>
+    <a href="/register">Rejestracja</a>
+    <span th:text="${#authentication.getName() ne 'anonymousUser' ? #authentication.getName() : ''}">Username</span>
+</div>
+<form action="/register" method="post" th:object="${user}">
+    <div class="container">
+        <h1>Rejestracja</h1>
+        <hr>
+
+        <label for="name_label"><b>Imię</b></label>
+        <input type="text" th:field="*{name}" placeholder="Wprowadź imię" id="name_label" required>
+
+        <label for="surname_label"><b>Nazwisko</b></label>
+        <input type="text" th:field="*{surname}" placeholder="Wprowadź nazwisko" id="surname_label" required>
+
+        <label for="email_label"><b>Email</b></label>
+        <input type="text" th:field="*{email}" placeholder="Wprowadź email" id="email_label" required>
+
+        <label for="passwd_label"><b>Hasło</b></label>
+        <input type="password" th:field="*{password}" placeholder="********" id="passwd_label" required>
+
+        <label for="passwd-repeat-label"><b>Powtórz hasło</b></label>
+        <input type="password" th:field="*{confirmedPassword}" placeholder="********" id="passwd-repeat-label" required>
+        <hr>
+
+        <button type="submit" class="registerbtn">Zarejestruj się</button>
+    </div>
+</form>
+</body>
+</html>

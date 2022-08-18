@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Logowanie</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" href="/../static/css/login.css">
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Strona główna</a>
+    <a href="/login">Logowanie</a>
+    <a href="/register">Rejestracja</a>
+
+    <span th:text="${#authentication.getName() ne 'anonymousUser' ? #authentication.getName() : ''}">Username</span>
+</div>
+
+<form action="/login" method="post">
+    <div class="container">
+        <h1>Logowanie</h1>
+        <hr>
+
+        <label for="email_label"><b>Email</b></label>
+        <input type="text" placeholder="Wprowadź email" name="username" id="email_label" required>
+
+        <label for="passwd_label"><b>Hasło</b></label>
+        <input type="password" placeholder="********" name="password" id="passwd_label" required>
+
+        <hr>
+
+        <button type="submit" class="loginbtn">Zaloguj się</button>
+    </div>
+</form>
+
+</body>
+</html>

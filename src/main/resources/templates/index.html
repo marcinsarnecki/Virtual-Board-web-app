@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<head>
+  <meta charset="UTF-8">
+  <title>Logowanie</title>
+  <link rel="stylesheet" th:href="@{/css/login.css}" href="/../static/css/login.css">
+</head>
+<body>
+<div class="navbar">
+  <a href="/">Strona główna</a>
+  <a href="/login">Logowanie</a>
+  <a href="/register">Rejestracja</a>
+
+  <span th:text="${#authentication.getName() ne 'anonymousUser' ? #authentication.getName() : ''}">Username</span>
+</div>
+
+<div class="container">
+  <h1>Strona Główna</h1>
+  <a sec:authorize="isAuthenticated()"  th:text="|Wyloguj się ${#authentication.name}|"  th:href="@{/logout}">Wyloguj się</a>
+</div>
+</body>
+</html>
