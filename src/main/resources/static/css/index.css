@@ -1,19 +1,42 @@
-* {box-sizing: border-box}
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
 body {
     padding-top: 20px;
     margin: 5px;
+    background: rgb(255,255,253);
+    background: linear-gradient(90deg, rgba(255,255,253,1) 0%, rgba(206,200,255,1) 100%);
+    font-weight: 100;
 }
-.navbar {
+
+.nav-container {
     overflow: hidden;
     background-color: #333;
-    position: fixed; /* Set the navbar to fixed position */
-    top: 0; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
 }
 
-/* Links inside the navbar */
-.navbar a {
-    float: left;
+.right-side, .left-side {
+    list-style-type: none;
+}
+
+.right-side li, .left-side li {
+    display: inline-block;
+}
+
+.right-side li a, .left-side li a {
     display: block;
     color: #f2f2f2;
     text-align: center;
@@ -21,8 +44,7 @@ body {
     text-decoration: none;
 }
 
-.navbar span {
-    float: right;
+.right-side li span {
     display: block;
     color: #f2f2f2;
     text-align: center;
@@ -30,24 +52,156 @@ body {
     text-decoration: none;
 }
 
-/* Change background on mouse-over */
-.navbar a:hover {
-    background: #ddd;
-    color: black;
-}
-
-/* Add padding to containers */
 .container {
-    padding: 16px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
 }
 
-/* Overwrite default styles of hr */
-hr {
-    border: 1px solid #f1f1f1;
-    margin-bottom: 25px;
+.no_project {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    top: 10%;
 }
-/* Add a blue text color to links */
-a {
-    color: dodgerblue;
+
+.second_container{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
 }
+
+.projects_table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.projects_table thead th {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    border: 1px solid #AAAAAA;
+    color: #000000;
+    padding: 5px;
+}
+
+.name_column {
+    padding-right: 10px;
+}
+
+.projects_table tbody td {
+    width: 50%;
+    font-size: 15px;
+    border: 1px solid #AAAAAA;
+    padding:9px 23px;
+    text-align: center;
+}
+
+.project_button {
+    overflow: hidden;
+    box-shadow:inset 0 -3px 7px 0 #29bbff;
+    background: #2dabf9 linear-gradient(to bottom, #2dabf9 5%, #0688fa 100%);
+    border-radius:3px;
+    border:1px solid #0b0e07;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family: Arial, serif;
+    font-size:15px;
+    padding:9px 4px;
+    text-decoration:none;
+    text-shadow:0 1px 0 #263666;
+}
+.project_button:hover {
+    background: #476e9e linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);
+}
+.project_button:active {
+    position:relative;
+    top:1px;
+}
+
+.main_table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main_table thead th {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    padding: 5px;
+}
+
+.main_table tbody td {
+    /*padding: 2px;*/
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.badge_buttons_bar {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.add_badge_green, .add_badge_blue, .add_badge_orange, .add_badge_yellow, .add_badge_red {
+    box-sizing: border-box;
+    border-radius:28px;
+    border:2px solid #000000;
+    display:inline-block;
+    cursor:pointer;
+    font-size:17px;
+    padding:13px 20px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+    width: 120px;
+    margin: 5px;
+}
+
+.add_badge_green {
+    background-color: #22b14d;
+}
+
+.add_badge_blue {
+    background-color: #00a2e8;
+}
+
+.add_badge_orange {
+    background-color: #ff7d27;
+}
+
+.add_badge_yellow {
+    background-color: #fff200;
+}
+
+.add_badge_red {
+    background-color: #ed1c23;
+}
+
+.badge_remove_bar {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.remove_badge {
+    box-sizing: border-box;
+    border-radius:28px;
+    border:2px solid #000000;
+    display:inline-block;
+    cursor:pointer;
+    font-size:17px;
+    padding:13px 20px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+    width: 160px;
+    margin: 5px;
+}
+
 

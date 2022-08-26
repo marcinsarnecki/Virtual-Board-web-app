@@ -14,8 +14,8 @@ public class BadgeService {
         this.badgeRepository = badgeRepository;
     }
     @Transactional
-    public Badge add(Color color, String description, String url) {
-        Badge badge = new Badge(color, description, url);
+    public Badge add(Color color) {
+        Badge badge = new Badge(color);
         badgeRepository.save(badge);
         return badge;
     }

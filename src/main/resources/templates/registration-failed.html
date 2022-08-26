@@ -7,13 +7,14 @@
 </head>
 <body>
 <div class="navbar">
-    <a href="/">Strona główna</a>
+<!--    <a href="/">Strona główna</a>-->
     <a href="/login">Logowanie</a>
     <a href="/register">Rejestracja</a>
 </div>
 
 <div style = "position:relative; left:15px; top:15px;">
     <h1>Nie udało się!</h1>
+    <p th:text="${message}">message</p>
     <hr>
     <a text="Powrót do formularza restracji" href="/register">Powrót do formularza rejestracji</a>
 </div>

@@ -3,20 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <title>Logowanie</title>
-  <link rel="stylesheet" th:href="@{/css/login.css}" href="/../static/css/login.css">
+  <link rel="stylesheet" th:href="@{/css/index.css}" href="/../static/css/index.css">
 </head>
 <body>
-<div class="navbar">
-  <a href="/">Strona główna</a>
-  <a href="/login">Logowanie</a>
-  <a href="/register">Rejestracja</a>
+  <!-- nav-container -->
+  <nav class="nav-container">
+<!--    right nav-->
+    <ul class="left-side">
+        <li><a href="/">Strona główna</a></li>
+<!--        <li><a href="/login">Logowanie</a> </li>-->
+<!--        <li><a href="/register">Rejestracja</a> </li>-->
+        <li><a sec:authorize="hasRole('ROLE_admin')" href="/admin">Admin</a> </li>
+    </ul>
+    <ul class="right-side">
+      <li><a href="/logout">Wyloguj się</a></li>
+        <li><span th:text="${#authentication.name}">Username</span> </li>
+    </ul>
+  </nav>
 
-  <span th:text="${#authentication.getName() ne 'anonymousUser' ? #authentication.getName() : ''}">Username</span>
+  <div class="no_project" th:if="${project} eq 'no-project-passed'">
+      <h1>Na ten moment nie ma Cię w żadnym projekcie :(</h1>
+  </div>
+<div class="container" th:unless="${project} eq 'no-project-passed'">
+    &nbsp;
+    <table class="projects_table">
+        <thead>
+        <tr>
+            <th colspan="2">Projekty</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="it : ${projectList}">
+            <td th:text="${it.name}"></td>
+            <td>
+                <form action="#" th:action="@{/}" method="get">
+                    <button class="project_button" type="submit" name="project" th:value="${it.name}">Wybierz</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
-
-<div class="container">
-  <h1>Strona Główna</h1>
-  <a sec:authorize="isAuthenticated()"  th:text="|Wyloguj się ${#authentication.name}|"  th:href="@{/logout}">Wyloguj się</a>
+<div class="second_container" th:unless="${project} eq 'no-project-passed'">
+    &nbsp;
+    <table class="main_table">
+        <thead>
+        <tr>
+            <th colspan="15">Magnesy</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="record : ${mainTable}">
+            <td class="name_column" th:text="${record.name}"></td>
+            <td> <img th:src="${record.badges[0]}"></td>
+            <td> <img th:src="${record.badges[1]}"></td>
+            <td> <img th:src="${record.badges[2]}"></td>
+            <td> <img th:src="${record.badges[3]}"></td>
+            <td> <img th:src="${record.badges[4]}"></td>
+            <td> <img th:src="${record.badges[5]}"></td>
+            <td> <img th:src="${record.badges[6]}"></td>
+            <td> <img th:src="${record.badges[7]}"></td>
+            <td> <img th:src="${record.badges[8]}"></td>
+            <td> <img th:src="${record.badges[9]}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="badge_buttons_bar" th:unless="${project} eq 'no-project-passed'">
+<!--    &nbsp;-->
+    <form th:action="@{/add-badge}" method="post">
+        <input type="hidden" name="project" th:value="${project}">
+        <button class="add_badge_green" type="submit" name="color" th:value="|green|">Dodaj</button>
+    </form>
+    <form th:action="@{/add-badge}" method="post">
+        <input type="hidden" name="project" th:value="${project}">
+        <button class="add_badge_blue" type="submit" name="color" th:value="|blue|">Dodaj</button>
+    </form>
+    <form th:action="@{/add-badge}" method="post">
+        <input type="hidden" name="project" th:value="${project}">
+        <button class="add_badge_orange" type="submit" name="color" th:value="|orange|">Dodaj</button>
+    </form>
+    <form th:action="@{/add-badge}" method="post">
+        <input type="hidden" name="project" th:value="${project}">
+        <button class="add_badge_red" type="submit" name="color" th:value="|red|">Dodaj</button>
+    </form>
+    <form th:action="@{/add-badge}" method="post">
+        <input type="hidden" name="project" th:value="${project}">
+        <button class="add_badge_yellow" type="submit" name="color" th:value="|yellow|">Dodaj</button>
+    </form>
+</div>
+<div class="badge_remove_bar" th:unless="${project} eq 'no-project-passed'">
+    <form th:action="@{/remove-last-badge}" method="post">
+        <button class="remove_badge" type="submit" name="project" th:value="${project}">Usuń ostatni magnes</button>
+    </form>
 </div>
 </body>
 </html>

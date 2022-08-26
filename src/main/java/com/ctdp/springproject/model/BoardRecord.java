@@ -27,14 +27,18 @@ public class BoardRecord {
     public void removeBadge(Badge badge) {
         int index = 0;
         for(Badge it: badgeList) {
-            if(it.getColor() == badge.getColor() &&
-                    Objects.equals(it.getDescription(), badge.getDescription()) &&
-                    Objects.equals(it.getUrl(), badge.getUrl())) {
+            if(it.getColor() == badge.getColor()) {
                 badgeList.remove(index);
                 return;
             }
             index++;
         }
+    }
+    public void removeLastBadge() {
+        if(badgeList.size() == 0)
+            return;
+        int idx = badgeList.size() - 1;
+        badgeList.remove(idx);
     }
 
     public BoardRecord() {
@@ -81,8 +85,8 @@ public class BoardRecord {
     public String toString() {
         return "BoardRecord{" +
                 "id=" + id +
-                ", person=" + person +
-                ", project=" + project +
+                ", person=" + person.getId() +
+                ", project=" + project.getId() +
                 '}';
     }
 }

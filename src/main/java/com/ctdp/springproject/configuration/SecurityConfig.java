@@ -14,10 +14,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
                 //.mvcMatchers("/").permitAll()
+                .antMatchers("/admin").hasRole("admin")
                 .mvcMatchers("/register", "registration-confirmation", "/registration-failed").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/", true).permitAll());
         http.csrf().disable();
+        http.headers().frameOptions().disable();
         return http.build();
     }
     @Bean

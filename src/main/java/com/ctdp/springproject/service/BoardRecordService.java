@@ -57,6 +57,28 @@ public class BoardRecordService {
     }
 
     @Transactional
+    public void addBadge(String personEmail, String projectName, Badge badge) {
+        try {
+            BoardRecord boardRecord = boardRecordRepository.findBoardRecordByPersonEmailAndProjectName(personEmail, projectName).orElseThrow();
+            boardRecord.addBadge(badge);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    @Transactional
+    public void removeLastBadge(String personEmail, String projectName) {
+        try {
+            BoardRecord boardRecord = boardRecordRepository.findBoardRecordByPersonEmailAndProjectName(personEmail, projectName).orElseThrow();
+            boardRecord.removeLastBadge();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    @Transactional
     public void removeBadge(Long personId, Long projectId, Badge badge) {
         try {
             BoardRecord boardRecord = boardRecordRepository.findBoardRecordByPersonIdAndProjectId(personId, projectId).orElseThrow();

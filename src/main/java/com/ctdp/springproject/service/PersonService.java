@@ -54,6 +54,20 @@ public class PersonService {
             return null;
         }
     }
+    @Transactional
+    public List<Project> findAllProjectsByPersonEmail(String email) {
+        try {
+            Person person = personRepository.findByEmail(email).orElseThrow();
+            List<Project> projectList = new ArrayList<>();
+            for(BoardRecord boardRecord: person.getBoardRecordList())
+                projectList.add(boardRecord.getProject());
+            return projectList;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
     public List<Person> findAllPersons() {
         return (List<Person>) personRepository.findAll();
     }

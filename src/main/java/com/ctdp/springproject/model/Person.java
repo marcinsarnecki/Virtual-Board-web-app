@@ -34,7 +34,7 @@ public class Person {
 
     @Column(unique = true, nullable = false)
     private String email;
-    @OneToMany(mappedBy = "person")//, fetch = FetchType.EAGER, cascade = CascadeType.ALL
+    @OneToMany(mappedBy = "person")
     private List<BoardRecord> boardRecordList = new ArrayList<>();
 
     public void addBoardRecord(BoardRecord boardRecord) {

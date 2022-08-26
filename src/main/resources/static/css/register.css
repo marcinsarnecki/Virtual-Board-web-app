@@ -2,13 +2,15 @@
 body {
     padding-top: 20px;
     margin: 5px;
+    /*background: rgb(255,255,253);*/
+    /*background: linear-gradient(90deg, rgba(255,255,253,1) 0%, rgba(206,200,255,1) 100%);*/
 }
 .navbar {
     overflow: hidden;
     background-color: #333;
-    position: fixed; /* Set the navbar to fixed position */
-    top: 0; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 /* Links inside the navbar */
@@ -37,12 +39,10 @@ body {
 }
 
 
-/* Add padding to containers */
 .container {
     padding: 16px;
 }
 
-/* Full-width input fields */
 input[type=text], input[type=password] {
     width: 100%;
     padding: 15px;
@@ -57,13 +57,11 @@ input[type=text]:focus, input[type=password]:focus {
     outline: none;
 }
 
-/* Overwrite default styles of hr */
 hr {
     border: 1px solid #f1f1f1;
     margin-bottom: 25px;
 }
 
-/* Set a style for the submit/register button */
 .registerbtn {
     background-color: #04AA6D;
     color: white;

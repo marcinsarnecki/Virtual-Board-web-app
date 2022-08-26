@@ -7,8 +7,6 @@ public class Badge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String description;
-    private String url;
     private Color color;
     @ManyToOne
     @JoinColumn(name = "board_record_id")
@@ -16,9 +14,7 @@ public class Badge {
     public Badge() {
     }
 
-    public Badge(Color color, String description, String url) {
-        this.description = description;
-        this.url = url;
+    public Badge(Color color) {
         this.color = color;
     }
 
@@ -38,28 +34,10 @@ public class Badge {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     @Override
     public String toString() {
         return "Badge{" +
                 "id=" + id +
-                ", description='" + description + '\'' +
-                ", url='" + url + '\'' +
                 ", color=" + color +
                 '}';
     }
