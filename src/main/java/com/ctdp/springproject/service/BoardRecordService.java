@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardRecordService {
@@ -44,6 +45,22 @@ public class BoardRecordService {
             return null;
         }
     }
+    @Transactional
+    public BoardRecord addPersonToProject(String personEmail, String projectName) {
+        try {
+            Person person = personService.findPersonByEmail(personEmail).orElseThrow();
+            Project project = projectService.findProjectByName(projectName).orElseThrow();
+            BoardRecord boardRecord = new BoardRecord(person, project);
+            person.addBoardRecord(boardRecord);
+            project.addBoardRecord(boardRecord);
+            boardRecordRepository.save(boardRecord);
+            return boardRecord;
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
     @Transactional
     public void addBadge(Long personId, Long projectId, Badge badge) {
@@ -59,8 +76,14 @@ public class BoardRecordService {
     @Transactional
     public void addBadge(String personEmail, String projectName, Badge badge) {
         try {
-            BoardRecord boardRecord = boardRecordRepository.findBoardRecordByPersonEmailAndProjectName(personEmail, projectName).orElseThrow();
-            boardRecord.addBadge(badge);
+            Optional<BoardRecord> boardRecord = boardRecordRepository.findBoardRecordByPersonEmailAndProjectName(personEmail, projectName);
+            if(boardRecord.isEmpty()) {
+                this.addPersonToProject(personEmail, projectName);
+                boardRecord = boardRecordRepository.findBoardRecordByPersonEmailAndProjectName(personEmail, projectName);
+                if(boardRecord.isEmpty())
+                    return;
+            }
+            boardRecord.get().addBadge(badge);
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
@@ -95,6 +118,17 @@ public class BoardRecordService {
             BoardRecord boardRecord = boardRecordRepository.findBoardRecordByPersonIdAndProjectId(personId, projectId).orElseThrow();
             Hibernate.initialize(boardRecord.getBadgeList());
             return boardRecord.getBadgeList();
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    @Transactional
+    public List<BoardRecord> findAllBoardRecords() {
+        try{
+            List<BoardRecord> boardRecordList = (List<BoardRecord>) boardRecordRepository.findAll();
+            return boardRecordList;
         }
         catch (Exception e) {
             System.out.println(e.getMessage());

@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Logowanie</title>
+  <link rel="stylesheet" th:href="@{/css/add.css}" href="/../static/css/add.css">
 </head>
 <body>
-$END$
+<nav class="nav-container">
+  <ul class="left-side">
+    <li><a href="/">Strona główna</a></li>
+    <li><a sec:authorize="hasRole('ROLE_admin')" href="/admin">Admin</a> </li>
+    <li><a sec:authorize="hasRole('ROLE_consultant')" href="/add">Dodaj magnes</a> </li>
+  </ul>
+  <ul class="right-side">
+    <li><a href="/logout">Wyloguj się</a></li>
+    <li><span th:text="${#authentication.name}">Username</span> </li>
+  </ul>
+</nav>
+
+
+<div class="container">
+  <form th:action="@{/add-badge}" method="post">
+    <label>
+      <select name="color">
+        <option selected disabled>Wybierz kolor</option>
+        <option class="red" th:value="|red|">Czerwony</option>
+        <option class="green" th:value="|green|">Zielony</option>
+        <option class="blue" th:value="|blue|">Niebieski</option>
+        <option class="orange" th:value="|orange|">Pomarańczowy</option>
+        <option class="yellow" th:value="|yellow|">Żółty</option>
+      </select>
+    </label>
+    <label>
+      <select name="project">
+        <option class="option_project" selected disabled>Wybierz projekt</option>
+        <option class="option_project" th:each="project : ${projectList}" th:value="${project}" th:text="${project}"></option>
+      </select>
+    </label>
+    <button type="submit">Dodaj</button>
+  </form>
+</div>
 </body>
 </html>

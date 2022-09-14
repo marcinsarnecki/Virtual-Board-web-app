@@ -9,6 +9,9 @@ import com.ctdp.springproject.service.ProjectService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +45,7 @@ public class SpringProjectApplication {
 			System.out.println("9 find AllPersonsByProjectId <projectId>");
 			System.out.println("10 find AllBadgesByPersonAndProjectId <personId> <projectId>");
 			System.out.println("11 find BoardRecordsByProjectName <projectName>");
+			System.out.println("12 add PersonRecord <personId>");
 			System.out.println();
 			int input = sc.nextInt();
 			if(input == -1)
@@ -120,7 +124,21 @@ public class SpringProjectApplication {
 					System.out.println(boardRecord.toString());
 				}
 			}
+			if(input == 12) {
+				long personId;
+				personId = sc.nextLong();
+				personService.addPersonRecord("marcin.sarnecki44@gmail.com", personId);
+			}
+			if(input == 13) {
+				List<PersonRecord> personRecordList = personService.findAllPersonRecordsByAdminEmail("marcin.sarnecki44@gmail.com");
+				for(PersonRecord personRecord: personRecordList)
+					System.out.println("id = " + personRecord.getPointer_id());
+			}
 		}
+	}
+	@Bean
+	public PasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 	static void addSampleData(PersonService personService, BoardRecordService boardRecordService, ProjectService projectService, BadgeService badgeService) {
 		// sample data, random names, passwords 12345
@@ -130,7 +148,7 @@ public class SpringProjectApplication {
 		Person person4 = personService.add("Dominik", "Pawlak", "dp@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
 		Person person5 = personService.add("Piotr", "Zawadzki", "pz@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
 
-		Person person6 = personService.add("e", "e", "ee@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
+		Person person6 = personService.add("abc", "def", "ad@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
 
 
 		Project project1 = projectService.add("telefony");
@@ -153,6 +171,9 @@ public class SpringProjectApplication {
 		boardRecordService.addBadge(1L, 2L, new Badge(Color.ORANGE));
 		boardRecordService.addBadge(1L, 2L, new Badge(Color.GREEN));
 		boardRecordService.addBadge(1L, 2L, new Badge(Color.RED));
+		boardRecordService.addBadge(1L, 2L, new Badge(Color.GREEN));
+		boardRecordService.addBadge(2L, 1L, new Badge(Color.GREEN));
+		boardRecordService.addBadge(1L, 1L, new Badge(Color.GREEN));
 		boardRecordService.removeBadge(1L, 2L, new Badge(Color.ORANGE));
 		boardRecordService.addBadge(3L, 2L, new Badge(Color.RED));
 

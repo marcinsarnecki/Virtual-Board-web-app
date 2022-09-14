@@ -7,10 +7,8 @@
 </head>
 <body>
 <div class="navbar">
-<!--    <a href="/">Strona główna</a>-->
     <a href="/login">Logowanie</a>
     <a href="/register">Rejestracja</a>
-<!--    <span th:text="${#authentication.getName() ne 'anonymousUser' ? #authentication.getName() : ''}">Username</span>-->
 </div>
 <form action="/register" method="post" th:object="${user}">
     <div class="container">

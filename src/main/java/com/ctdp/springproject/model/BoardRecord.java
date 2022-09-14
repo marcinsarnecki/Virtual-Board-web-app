@@ -1,6 +1,8 @@
 package com.ctdp.springproject.model;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;

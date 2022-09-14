@@ -1,13 +1,15 @@
 package com.ctdp.springproject.controller;
 
+import com.ctdp.springproject.dto.ChangePasswordDto;
+import com.ctdp.springproject.dto.PersonDto;
 import com.ctdp.springproject.dto.PersonRegistrationDto;
-import com.ctdp.springproject.model.Badge;
-import com.ctdp.springproject.model.Color;
-import com.ctdp.springproject.model.Project;
+import com.ctdp.springproject.dto.TableRecordDto;
+import com.ctdp.springproject.model.*;
 import com.ctdp.springproject.service.BoardRecordService;
 import com.ctdp.springproject.service.PersonService;
 import com.ctdp.springproject.service.ProjectService;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -17,19 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 public class AppController {
     private final PersonService personService;
     private final ProjectService projectService;
     private final BoardRecordService boardRecordService;
+    private final PasswordEncoder passwordEncoder;
 
-    public AppController(PersonService personService, ProjectService projectService, BoardRecordService boardRecordService) {
+    public AppController(PersonService personService, ProjectService projectService, BoardRecordService boardRecordService, PasswordEncoder passwordEncoder) {
         this.personService = personService;
         this.projectService = projectService;
         this.boardRecordService = boardRecordService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/login")
@@ -37,37 +40,66 @@ public class AppController {
         return "login-form";
     }
     @GetMapping("/")
-    String home(Model model, HttpSession session, @RequestParam(name = "project", defaultValue = "no-project-passed") String project) {
+    String home(Model model, HttpSession session) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        session.setAttribute("username", username);
-        if(Objects.equals(project, "no-project-passed")) { //domyslnie pierwszy na liscie projekt uzytkownika
-            List<Project> projectList = personService.findAllProjectsByPersonEmail(username);
-            if(projectList.size() != 0)
-                project = projectList.get(0).getName();
+        String role = personService.findPersonByEmail(username).orElseThrow().getRole();
+        if(Objects.equals(role, "consultant")) {
+            List<String> projectList = new ArrayList<>();
+            for(Project project: personService.findAllProjectsByPersonEmail(username))
+                projectList.add(project.getName());
+            List<List<TableRecordDto>> lists = new ArrayList<>();
+            for (String project : projectList)
+                lists.add(projectService.findTableRecordDtoListByProjectName(project));
+            model.addAttribute("size", projectList.size());
+            model.addAttribute("tables", lists);
+            model.addAttribute("projects", projectList);
         }
-        model.addAttribute("project", project);
-        model.addAttribute("projectList", personService.findAllProjectsByPersonEmail(username));
-        model.addAttribute("mainTable", projectService.findTableRecordDtoListByProjectName(project));
+        if(Objects.equals(role, "admin")) {
+            List<PersonRecord> personRecordList = personService.findAllPersonRecordsByAdminEmail(username);
+            HashSet<Long> hashSet = new HashSet<Long>();
+            for(PersonRecord personRecord: personRecordList)
+                hashSet.add(personRecord.getPointer_id());
+            List<BoardRecord> boardRecordList = boardRecordService.findAllBoardRecords();
+            HashMap<String, List<TableRecordDto>> hashMap = new HashMap<String, List<TableRecordDto>>();
+            for(BoardRecord boardRecord: boardRecordList) {
+                String project = boardRecord.getProject().getName();
+                Long person_id = boardRecord.getPerson().getId();
+                if(!hashSet.contains(person_id))
+                    continue;
+                if(!hashMap.containsKey(project))
+                    hashMap.put(project, new ArrayList<TableRecordDto>());
+                hashMap.get(project).add(new TableRecordDto(boardRecord));
+            }
+            List<List<TableRecordDto>> lists = new ArrayList<>(hashMap.values());
+            model.addAttribute("size", hashMap.keySet().size());
+            model.addAttribute("tables", lists);
+            model.addAttribute("projects", hashMap.keySet().toArray());
+        }
         return "index";
+    }
+    @GetMapping("/add")
+    String add(Model model) {
+        List<String> projectList = new ArrayList<>();
+        for(Project project: projectService.findAllProjects())
+            projectList.add(project.getName());
+        model.addAttribute("projectList", projectList);
+        return "add";
     }
     @Transactional
     @PostMapping("/add-badge")
-    String addBadge(Model model, @RequestParam String color, @RequestParam String project) {
+    String addBadge(Model model, @RequestParam(defaultValue = "no-color") String color, @RequestParam(defaultValue = "no-project") String project) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        boardRecordService.addBadge(username, project, new Badge(
-                switch (color) {
-                    case "blue" -> Color.BLUE;
-                    case "green" -> Color.GREEN;
-                    case "orange" -> Color.ORANGE;
-                    case "yellow" -> Color.YELLOW;
-                    default -> Color.RED;}));
-        model.addAttribute("project", project);
+        if(!Objects.equals(color, "no-color") && !Objects.equals(project, "no-project"))
+            boardRecordService.addBadge(username, project, new Badge(
+                    switch (color) {
+                        case "blue" -> Color.BLUE;
+                        case "green" -> Color.GREEN;
+                        case "orange" -> Color.ORANGE;
+                        case "yellow" -> Color.YELLOW;
+                        default -> Color.RED;}));
         model.addAttribute("projectList", personService.findAllProjectsByPersonEmail(username));
         model.addAttribute("mainTable", projectService.findTableRecordDtoListByProjectName(project));
-        return UriComponentsBuilder
-                .fromPath("redirect:")
-                .queryParam("project", project)
-                .build().toString();
+        return "redirect:/";
     }
     @Transactional
     @PostMapping("/remove-last-badge")
@@ -105,6 +137,86 @@ public class AppController {
         personService.register(personRegistrationDto);
         return "redirect:/confirmation";
     }
+    @GetMapping("/change-password")
+    String changePassword(Model model) {
+        ChangePasswordDto changePasswordDto = new ChangePasswordDto();
+        model.addAttribute("changePasswordDto", changePasswordDto);
+        return "change-password-form";
+    }
+    @Transactional
+    @PostMapping("/change-password")
+    String changePasswd(ChangePasswordDto changePasswordDto, Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Person person = personService.findPersonByEmail(username).orElseThrow();
+        if(!passwordEncoder.matches(changePasswordDto.getOldPassword(), person.getPassword())) {
+            return UriComponentsBuilder
+                    .fromPath("redirect:change-password-result")
+                    .queryParam("code", 1)
+                    .build().toString();
+        }
+        else if(!Objects.equals(changePasswordDto.getNewPassword(), changePasswordDto.getNewConfirmedPassword())){
+            return UriComponentsBuilder
+                    .fromPath("redirect:change-password-result")
+                    .queryParam("code", 2)
+                    .build().toString();
+        }
+        else if(Objects.equals(changePasswordDto.getNewPassword(), changePasswordDto.getOldPassword())) {
+            return UriComponentsBuilder
+                    .fromPath("redirect:change-password-result")
+                    .queryParam("code", 3)
+                    .build().toString();
+        }
+        else {
+            personService.changePassword(username, passwordEncoder.encode(changePasswordDto.getNewConfirmedPassword()));
+            return UriComponentsBuilder
+                    .fromPath("redirect:change-password-result")
+                    .queryParam("code", 0)
+                    .build().toString();
+        }
+    }
+    @GetMapping("/change-password-result")
+    String changePasswdResult(@RequestParam Long code, Model model) {
+        if(code == 0)
+            model.addAttribute("message", "Pomyślnie zmieniono hasło!");
+        if(code == 1)
+            model.addAttribute("message", "Nieprawidłowe obecne hasło!");
+        if(code == 2)
+            model.addAttribute("message", "Podane nowe hasła różnią się!");
+        if(code == 3)
+            model.addAttribute("message", "Nowe hasło nie różni się od obecnego!");
+        return "change-password-result";
+    }
+    @GetMapping("/admin")
+    String adminPage(Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<PersonRecord> personRecordList = personService.findAllPersonRecordsByAdminEmail(username);
+        HashSet<Long> hashSet = new HashSet<Long>();
+        for(PersonRecord personRecord: personRecordList)
+            hashSet.add(personRecord.getPointer_id());
+        List<Person> personList = personService.findAllPersons();
+        List<PersonDto> personDtoList = new ArrayList<>();
+        for(Person person: personList)
+            if(Objects.equals(person.getRole(), "consultant")) {
+                PersonDto personDto = new PersonDto();
+                personDto.setEmail(person.getEmail());
+                personDto.setName(person.getName());
+                personDto.setSurname(person.getSurname());
+                personDto.setId(person.getId());
+                if(hashSet.contains(person.getId()))
+                    personDto.setChecked(true);
+                personDtoList.add(personDto);
+            }
+        personDtoList.sort((p1, p2) -> p1.getSurname().compareTo(p2.getSurname()));//sorting by surname alphabetically
+        model.addAttribute("list", personDtoList);
+        return "admin";
+    }
+    @PostMapping("/users")
+    String users(@RequestParam List<Long> values) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        personService.setNewPersonRecordsByAdminEmail(username, values);
+        return "redirect:/";
+    }
+
     @GetMapping("/confirmation")
     String registrationConfirmation() {
         return "registration-confirmation";

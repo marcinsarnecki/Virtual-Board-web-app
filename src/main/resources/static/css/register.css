@@ -2,8 +2,6 @@
 body {
     padding-top: 20px;
     margin: 5px;
-    /*background: rgb(255,255,253);*/
-    /*background: linear-gradient(90deg, rgba(255,255,253,1) 0%, rgba(206,200,255,1) 100%);*/
 }
 .navbar {
     overflow: hidden;
@@ -13,7 +11,6 @@ body {
     width: 100%;
 }
 
-/* Links inside the navbar */
 .navbar a {
     float: left;
     display: block;
@@ -32,14 +29,12 @@ body {
     text-decoration: none;
 }
 
-/* Change background on mouse-over */
 .navbar a:hover {
     background: #ddd;
     color: black;
 }
 
-
-.container {
+.choose_project {
     padding: 16px;
 }
 

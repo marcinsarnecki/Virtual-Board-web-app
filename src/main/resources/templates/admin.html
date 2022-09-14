@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 <head>
     <meta charset="UTF-8">
     <title>Admin panel</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}" href="/../static/css/admin.css">
 </head>
 <body>
-
+<nav class="nav-container">
+    <ul class="left-side">
+        <li><a href="/">Strona główna</a></li>
+        <li><a sec:authorize="hasRole('ROLE_admin')" href="/admin">Admin</a> </li>
+    </ul>
+    <ul class="right-side">
+        <li><a href="/logout">Wyloguj się</a></li>
+        <li><span th:text="${#authentication.name}">Username</span> </li>
+    </ul>
+</nav>
+<div class="container">
+    <form th:action="@{/users}" method="post">
+        <table id="consultants">
+            <tbody>
+            <tr>
+                <th>Imię</th>
+                <th>Nazwisko</th>
+                <th>Email</th>
+                <th>#</th>
+            </tr>
+            <tr th:each="person : ${list}">
+                <td th:text="${person.name}"></td>
+                <td th:text="${person.surname}"></td>
+                <td th:text="${person.email}"></td>
+                <td>
+                    <label>
+                        <input type="checkbox" th:value="${person.id}" th:name="values" th:checked="${person.checked}">
+                    </label>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    &nbsp;
+    <button type="submit">Zapisz</button>
+    </form>
+</div>
 </body>
 </html>

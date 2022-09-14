@@ -7,20 +7,27 @@ public class PersonRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "person_id")
-    private Person person;
 
-    public Person getPerson() {
-        return person;
+    private Long pointer_id;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public PersonRecord(Person person) {
-        this.person = person;
+    public Long getPointer_id() {
+        return pointer_id;
+    }
+
+    public void setPointer_id(Long pointer_id) {
+        this.pointer_id = pointer_id;
+    }
+
+    public PersonRecord(Long pointer_id) {
+        this.pointer_id = pointer_id;
     }
 
     public PersonRecord() {

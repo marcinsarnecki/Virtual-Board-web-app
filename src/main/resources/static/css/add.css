@@ -1,0 +1,109 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    padding-top: 20px;
+    margin: 5px;
+    background: rgb(255,255,253);
+    background: linear-gradient(90deg, rgba(255,255,253,1) 0%, rgba(206,200,255,1) 100%);
+    font-weight: 100;
+}
+
+.nav-container {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.right-side, .left-side {
+    list-style-type: none;
+}
+
+.right-side li, .left-side li {
+    display: inline-block;
+}
+
+.right-side li a, .left-side li a {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.right-side li span {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+select option {
+    background-color: #273238;
+}
+
+button {
+    background-color: white;
+}
+
+select, button, select option {
+    width: 160px;
+    padding: 5px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+select, button {
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: black;
+}
+
+.red {color: #ff2020;}
+.green {color: lawngreen}
+.blue {color: deepskyblue}
+.yellow {color: yellow}
+.orange {color: orange}
+
+.choose_project {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.temp {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.option_project {
+    color: #dad5d5;
+}

@@ -1,7 +1,5 @@
 package com.ctdp.springproject.model;
 
-import org.hibernate.Hibernate;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +13,8 @@ public class Person {
     private String surname;
     private String role;
     private String password;
+    @Column(unique = true, nullable = false)
+    private String email;
 
     public String getPassword() {
         return password;
@@ -32,10 +32,25 @@ public class Person {
         this.email = email;
     }
 
-    @Column(unique = true, nullable = false)
-    private String email;
     @OneToMany(mappedBy = "person")
     private List<BoardRecord> boardRecordList = new ArrayList<>();
+
+
+    public List<PersonRecord> getPersonRecordList() {
+        return personRecordList;
+    }
+
+    public void setPersonRecordList(List<PersonRecord> personRecordList) {
+        this.personRecordList = personRecordList;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "person_id")
+    private List<PersonRecord> personRecordList = new ArrayList<>();
+
+    public void addPersonRecord(PersonRecord personRecord) {
+        personRecordList.add(personRecord);
+    }
 
     public void addBoardRecord(BoardRecord boardRecord) {
         boardRecordList.add(boardRecord);
@@ -101,6 +116,7 @@ public class Person {
                 ", surname='" + surname + '\'' +
                 ", role='" + role + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

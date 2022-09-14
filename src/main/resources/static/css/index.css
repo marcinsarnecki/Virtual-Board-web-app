@@ -23,7 +23,7 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-
+    z-index: 1;/*navbar on tables when scrolling*/
     display: flex;
     justify-content: space-between;
 }
@@ -52,12 +52,6 @@ body {
     text-decoration: none;
 }
 
-.container {
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0%);
-}
-
 .no_project {
     margin: auto;
     display: flex;
@@ -67,7 +61,7 @@ body {
     top: 10%;
 }
 
-.second_container{
+.container{
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%);
@@ -137,71 +131,51 @@ body {
 }
 
 .main_table tbody td {
-    /*padding: 2px;*/
     padding-left: 2px;
     padding-right: 2px;
 }
 
-.badge_buttons_bar {
-    margin: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+select option {
+    background-color: #273238;
 }
 
-.add_badge_green, .add_badge_blue, .add_badge_orange, .add_badge_yellow, .add_badge_red {
-    box-sizing: border-box;
-    border-radius:28px;
-    border:2px solid #000000;
-    display:inline-block;
-    cursor:pointer;
-    font-size:17px;
-    padding:13px 20px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #2f6627;
-    width: 120px;
-    margin: 5px;
+button {
+    background-color: white;
 }
 
-.add_badge_green {
-    background-color: #22b14d;
-}
-
-.add_badge_blue {
-    background-color: #00a2e8;
-}
-
-.add_badge_orange {
-    background-color: #ff7d27;
-}
-
-.add_badge_yellow {
-    background-color: #fff200;
-}
-
-.add_badge_red {
-    background-color: #ed1c23;
-}
-
-.badge_remove_bar {
-    margin: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.remove_badge {
-    box-sizing: border-box;
-    border-radius:28px;
-    border:2px solid #000000;
-    display:inline-block;
-    cursor:pointer;
-    font-size:17px;
-    padding:13px 20px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #2f6627;
+select, button, select option {
     width: 160px;
-    margin: 5px;
+    padding: 5px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 15px;
 }
+
+select, button {
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: black;
+}
+
+.red {color: #ff2020;}
+.green {color: lawngreen}
+.blue {color: deepskyblue}
+.yellow {color: yellow}
+.orange {color: orange}
+
+.choose_project {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.temp {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
 
 
