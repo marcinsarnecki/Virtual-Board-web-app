@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Logowanie</title>
-    <link rel="stylesheet" th:href="@{/css/login.css}" href="/../static/css/login.css">
+    <link rel="stylesheet" th:href="@{/css/change-password.css}" href="/../static/css/change-password.css">
 </head>
 <body>
-<div class="navbar">
-<!--    <a href="/">Strona główna</a>-->
-    <a href="/login">Logowanie</a>
-    <a href="/register">Rejestracja</a>
-
-<!--    <span th:text="${#authentication.getName() ne 'anonymousUser' ? #authentication.getName() : ''}">Username</span>-->
-</div>
+<nav class="nav-container">
+    <ul class="left-side">
+        <li><a href="/login">Logowanie</a> </li>
+        <li><a href="/register">Rejestracja</a> </li>
+    </ul>
+    <ul class="right-side">
+    </ul>
+</nav>
 
 <form action="/login" method="post">
     <div class="container">

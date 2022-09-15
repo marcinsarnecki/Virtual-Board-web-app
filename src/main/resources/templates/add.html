@@ -2,7 +2,7 @@
 <html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 <head>
   <meta charset="UTF-8">
-  <title>Logowanie</title>
+  <title>Dodaj magnes</title>
   <link rel="stylesheet" th:href="@{/css/add.css}" href="/../static/css/add.css">
 </head>
 <body>
@@ -13,6 +13,7 @@
     <li><a sec:authorize="hasRole('ROLE_consultant')" href="/add">Dodaj magnes</a> </li>
   </ul>
   <ul class="right-side">
+    <li><a href="/change-password">Zmień hasło</a></li>
     <li><a href="/logout">Wyloguj się</a></li>
     <li><span th:text="${#authentication.name}">Username</span> </li>
   </ul>

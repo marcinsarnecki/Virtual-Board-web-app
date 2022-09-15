@@ -1,18 +1,42 @@
-* {box-sizing: border-box}
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
 body {
     padding-top: 20px;
     margin: 5px;
+    background: rgb(255,255,253);
+    background: linear-gradient(90deg, rgba(255,255,253,1) 0%, rgba(206,200,255,1) 100%);
+    font-weight: 100;
 }
-.navbar {
+
+.nav-container {
     overflow: hidden;
     background-color: #333;
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 1;/*navbar on tables when scrolling*/
+    display: flex;
+    justify-content: space-between;
 }
 
-.navbar a {
-    float: left;
+.right-side, .left-side {
+    list-style-type: none;
+}
+
+.right-side li, .left-side li {
+    display: inline-block;
+}
+
+.right-side li a, .left-side li a {
     display: block;
     color: #f2f2f2;
     text-align: center;
@@ -20,12 +44,15 @@ body {
     text-decoration: none;
 }
 
-.navbar a:hover {
-    background: #ddd;
-    color: black;
+.right-side li span {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
 }
 
-.choose_project {
+.container {
     padding: 16px;
 }
 
@@ -48,7 +75,7 @@ hr {
     margin-bottom: 25px;
 }
 
-.loginbtn {
+button {
     background-color: #04AA6D;
     color: white;
     padding: 16px 20px;
@@ -59,11 +86,6 @@ hr {
     opacity: 0.9;
 }
 
-.loginbtn:hover {
-    opacity: 1;
+button:hover {
+    opacity:1;
 }
-
-a {
-    color: dodgerblue;
-}
-

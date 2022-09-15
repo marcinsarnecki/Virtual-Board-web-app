@@ -2,7 +2,7 @@
 <html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
 <head>
   <meta charset="UTF-8">
-  <title>Logowanie</title>
+  <title>Strona główna</title>
   <link rel="stylesheet" th:href="@{/css/index.css}" href="/../static/css/index.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
         <li><a sec:authorize="hasRole('ROLE_consultant')" href="/add">Dodaj magnes</a> </li>
     </ul>
     <ul class="right-side">
-        <li><a href="change-password">Zmień hasło</a></li>
+        <li><a href="/change-password">Zmień hasło</a></li>
         <li><a href="/logout">Wyloguj się</a></li>
         <li><span th:text="${#authentication.name}">Username</span> </li>
     </ul>
@@ -25,7 +25,8 @@
   </div>
 <div class="container" th:unless="${size} eq 0">
         <form th:action="@{/add-badge}" method="post" th:each="mainTable, it : ${tables}">
-            <table  class="main_table">
+            <table class="main_table">
+                <caption>caption test abc red green blue yellow orange</caption>
                 <thead>
                 <tr>
                     <th colspan="15" th:text="${projects[it.index]}">nazwa projektu</th>

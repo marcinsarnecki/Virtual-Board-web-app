@@ -12,6 +12,7 @@
         <li><a sec:authorize="hasRole('ROLE_admin')" href="/admin">Admin</a> </li>
     </ul>
     <ul class="right-side">
+        <li><a href="/change-password">Zmień hasło</a></li>
         <li><a href="/logout">Wyloguj się</a></li>
         <li><span th:text="${#authentication.name}">Username</span> </li>
     </ul>

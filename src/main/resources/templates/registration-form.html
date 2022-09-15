@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Rejestracja</title>
-    <link rel="stylesheet" th:href="@{/css/register.css}" href="/../static/css/register.css">
+    <link rel="stylesheet" th:href="@{/css/change-password.css}" href="/../static/css/change-password.css">
 </head>
 <body>
-<div class="navbar">
-    <a href="/login">Logowanie</a>
-    <a href="/register">Rejestracja</a>
-</div>
+<nav class="nav-container">
+    <ul class="left-side">
+        <li><a href="/login">Logowanie</a> </li>
+        <li><a href="/register">Rejestracja</a> </li>
+    </ul>
+    <ul class="right-side">
+    </ul>
+</nav>
 <form action="/register" method="post" th:object="${user}">
     <div class="container">
         <h1>Rejestracja</h1>
