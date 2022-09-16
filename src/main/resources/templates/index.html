@@ -24,9 +24,16 @@
       <h1 sec:authorize="hasRole('ROLE_admin')">Na ten moment nie obserwujesz żadnych konsultantów :(</h1>
   </div>
 <div class="container" th:unless="${size} eq 0">
+    &nbsp;
         <form th:action="@{/add-badge}" method="post" th:each="mainTable, it : ${tables}">
             <table class="main_table">
-                <caption>caption test abc red green blue yellow orange</caption>
+                <caption>
+                    <span class="red" th:text="${descriptions[it.index][0]}">red</span>
+                    <span class="green" th:text="${descriptions[it.index][1]}">green</span>
+                    <span class="blue" th:text="${descriptions[it.index][2]}">blue</span>
+                    <span class="yellow" th:text="${descriptions[it.index][3]}">yellow</span>
+                    <span class="orange" th:text="${descriptions[it.index][4]}">orange</span>
+                </caption>
                 <thead>
                 <tr>
                     <th colspan="15" th:text="${projects[it.index]}">nazwa projektu</th>
@@ -40,9 +47,9 @@
                 </tbody>
             </table>
             &nbsp;
-            <div class="choose_project">
-                <label class="temp">
-                    <select name="color">
+            <div sec:authorize="hasRole('ROLE_consultant')" class="choose_project">
+                <label>
+                    <select name="color" class="temp">
                         <option selected disabled>Wybierz kolor</option>
                         <option class="red" th:value="|red|">Czerwony</option>
                         <option class="green" th:value="|green|">Zielony</option>

@@ -11,6 +11,11 @@ public class Project {
     private Long id;
     @Column(unique = true)
     private String name;
+    private String redBadgeDescription;
+    private String greenBadgeDescription;
+    private String blueBadgeDescription;
+    private String yellowBadgeDescription;
+    private String orangeBadgeDescription;
     @OneToMany(mappedBy = "project")
     private List<BoardRecord> boardRecordList = new ArrayList<>();
 
@@ -49,11 +54,59 @@ public class Project {
         this.boardRecordList = boardRecordList;
     }
 
+    public String getRedBadgeDescription() {
+        return redBadgeDescription;
+    }
+
+    public void setRedBadgeDescription(String redBadgeDescription) {
+        this.redBadgeDescription = redBadgeDescription;
+    }
+
+    public String getGreenBadgeDescription() {
+        return greenBadgeDescription;
+    }
+
+    public void setGreenBadgeDescription(String greenBadgeDescription) {
+        this.greenBadgeDescription = greenBadgeDescription;
+    }
+
+    public String getBlueBadgeDescription() {
+        return blueBadgeDescription;
+    }
+
+    public void setBlueBadgeDescription(String blueBadgeDescription) {
+        this.blueBadgeDescription = blueBadgeDescription;
+    }
+
+    public String getYellowBadgeDescription() {
+        return yellowBadgeDescription;
+    }
+
+    public void setYellowBadgeDescription(String yellowBadgeDescription) {
+        this.yellowBadgeDescription = yellowBadgeDescription;
+    }
+
+    public String getOrangeBadgeDescription() {
+        return orangeBadgeDescription;
+    }
+
+    public void setOrangeBadgeDescription(String orangeBadgeDescription) {
+        this.orangeBadgeDescription = orangeBadgeDescription;
+    }
+    public String[] getDescriptions() {
+        return new String[]{redBadgeDescription, greenBadgeDescription, blueBadgeDescription, yellowBadgeDescription, orangeBadgeDescription};
+    }
+
     @Override
     public String toString() {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", redBadgeDescription='" + redBadgeDescription + '\'' +
+                ", greenBadgeDescription='" + greenBadgeDescription + '\'' +
+                ", blueBadgeDescription='" + blueBadgeDescription + '\'' +
+                ", yellowBadgeDescription='" + yellowBadgeDescription + '\'' +
+                ", orangeBadgeDescription='" + orangeBadgeDescription + '\'' +
                 '}';
     }
 }

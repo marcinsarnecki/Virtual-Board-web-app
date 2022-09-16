@@ -45,35 +45,50 @@ public class AppController {
         String role = personService.findPersonByEmail(username).orElseThrow().getRole();
         if(Objects.equals(role, "consultant")) {
             List<String> projectList = new ArrayList<>();
-            for(Project project: personService.findAllProjectsByPersonEmail(username))
+            List<String[]> descriptions = new ArrayList<>();
+            for(Project project: personService.findAllProjectsByPersonEmail(username)) {
                 projectList.add(project.getName());
+                descriptions.add(project.getDescriptions());
+            }
             List<List<TableRecordDto>> lists = new ArrayList<>();
             for (String project : projectList)
                 lists.add(projectService.findTableRecordDtoListByProjectName(project));
             model.addAttribute("size", projectList.size());
             model.addAttribute("tables", lists);
             model.addAttribute("projects", projectList);
+            model.addAttribute("descriptions", descriptions);
         }
         if(Objects.equals(role, "admin")) {
             List<PersonRecord> personRecordList = personService.findAllPersonRecordsByAdminEmail(username);
-            HashSet<Long> hashSet = new HashSet<Long>();
+            HashSet<Long> personRecordIdHashSet = new HashSet<Long>();
             for(PersonRecord personRecord: personRecordList)
-                hashSet.add(personRecord.getPointer_id());
+                personRecordIdHashSet.add(personRecord.getPointer_id());
             List<BoardRecord> boardRecordList = boardRecordService.findAllBoardRecords();
-            HashMap<String, List<TableRecordDto>> hashMap = new HashMap<String, List<TableRecordDto>>();
+            HashMap<String, List<TableRecordDto>> projectToTableRecordDtoList = new HashMap<>();
+            HashMap<String, String[]> projectToDescription = new HashMap<>();
             for(BoardRecord boardRecord: boardRecordList) {
-                String project = boardRecord.getProject().getName();
+                Project project = boardRecord.getProject();
                 Long person_id = boardRecord.getPerson().getId();
-                if(!hashSet.contains(person_id))
+                if(!personRecordIdHashSet.contains(person_id))
                     continue;
-                if(!hashMap.containsKey(project))
-                    hashMap.put(project, new ArrayList<TableRecordDto>());
-                hashMap.get(project).add(new TableRecordDto(boardRecord));
+                if(!projectToTableRecordDtoList.containsKey(project.getName()))
+                    projectToTableRecordDtoList.put(project.getName(), new ArrayList<TableRecordDto>());
+                projectToTableRecordDtoList.get(project.getName()).add(new TableRecordDto(boardRecord));
+                projectToDescription.put(project.getName(), project.getDescriptions());
             }
-            List<List<TableRecordDto>> lists = new ArrayList<>(hashMap.values());
-            model.addAttribute("size", hashMap.keySet().size());
+            List<String> projects = new ArrayList<>();
+            List<List<TableRecordDto>> lists = new ArrayList<>();
+            List<String[]> descriptions = new ArrayList<>();
+            for(Map.Entry<String, List<TableRecordDto>> mapEntry: projectToTableRecordDtoList.entrySet()) {
+                String project = mapEntry.getKey();
+                projects.add(project);
+                lists.add(mapEntry.getValue());
+                descriptions.add(projectToDescription.get(project));
+            }
+            model.addAttribute("size", projectToTableRecordDtoList.size());
             model.addAttribute("tables", lists);
-            model.addAttribute("projects", hashMap.keySet().toArray());
+            model.addAttribute("projects", projects);
+            model.addAttribute("descriptions", descriptions);
         }
         return "index";
     }

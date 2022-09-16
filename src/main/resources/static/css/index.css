@@ -152,14 +152,14 @@ select, button {
 .temp {
     margin-right: 5px;
     margin-left: 5px;
+    /*background-color: #273238;*/
 }
 
 caption {
     caption-side: bottom;
     border-radius: 10px;
-    border-width: 2px;
-    border-color: black;
     font-size: 15px;
+    background-color: #273238;
 }
 
 

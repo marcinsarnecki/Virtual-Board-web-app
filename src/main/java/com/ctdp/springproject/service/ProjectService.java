@@ -27,6 +27,20 @@ public class ProjectService {
         projectRepository.save(project);
         return project;
     }
+    @Transactional
+    public void setDescriptions(String name, String red, String green, String blue, String yellow, String orange) {
+        try {
+            Project project = projectRepository.findByName(name).orElseThrow();
+            project.setRedBadgeDescription(red);
+            project.setGreenBadgeDescription(green);
+            project.setBlueBadgeDescription(blue);
+            project.setYellowBadgeDescription(yellow);
+            project.setOrangeBadgeDescription(orange);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public Optional<Project> findProjectById(Long id) {
         return projectRepository.findById(id);

@@ -155,6 +155,10 @@ public class SpringProjectApplication {
 		Project project2 = projectService.add("laptopy");
 		Project project3 = projectService.add("5g");
 
+		projectService.setDescriptions("telefony", "test red", "test green", "test blue", "test yellow", "test orange");
+		projectService.setDescriptions("5g", "test red", "test green", "test blue", "test yellow", "test orange");
+		projectService.setDescriptions("laptopy", "test red", "test green", "test blue", "test yellow", "test orange");
+
 		boardRecordService.addPersonToProject(1L, 1L);
 		boardRecordService.addPersonToProject(1L, 2L);
 		boardRecordService.addPersonToProject(2L, 1L);
