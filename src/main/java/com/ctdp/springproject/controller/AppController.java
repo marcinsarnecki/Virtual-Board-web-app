@@ -1,9 +1,6 @@
 package com.ctdp.springproject.controller;
 
-import com.ctdp.springproject.dto.ChangePasswordDto;
-import com.ctdp.springproject.dto.PersonDto;
-import com.ctdp.springproject.dto.PersonRegistrationDto;
-import com.ctdp.springproject.dto.TableRecordDto;
+import com.ctdp.springproject.dto.*;
 import com.ctdp.springproject.model.*;
 import com.ctdp.springproject.service.BoardRecordService;
 import com.ctdp.springproject.service.PersonService;
@@ -235,5 +232,30 @@ public class AppController {
     @GetMapping("/confirmation")
     String registrationConfirmation() {
         return "registration-confirmation";
+    }
+
+    @GetMapping("/edit-descriptions")
+    String editDescriptionsPage(Model model) {
+        List<Project> projectList = projectService.findAllProjects();
+        model.addAttribute("projects", projectList);
+        return "edit-descriptions";
+    }
+    @Transactional
+    @PostMapping("/edit-descriptions")
+    String postEditDescriptions(Model model,
+                                @RequestParam List<String> projects,
+                                @RequestParam List<String> redDescriptions,
+                                @RequestParam List<String> blueDescriptions,
+                                @RequestParam List<String> greenDescriptions,
+                                @RequestParam List<String> yellowDescriptions,
+                                @RequestParam List<String> orangeDescriptions) {
+        for(int i = 0; i < projects.size(); i++)
+            projectService.setDescriptions(projects.get(i),
+                    redDescriptions.get(i),
+                    blueDescriptions.get(i),
+                    greenDescriptions.get(i),
+                    yellowDescriptions.get(i),
+                    orangeDescriptions.get(i));
+        return "redirect:/";
     }
 }

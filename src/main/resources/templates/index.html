@@ -9,7 +9,8 @@
   <nav class="nav-container">
     <ul class="left-side">
         <li><a href="/">Strona główna</a></li>
-        <li><a sec:authorize="hasRole('ROLE_admin')" href="/admin">Admin</a> </li>
+        <li><a sec:authorize="hasRole('ROLE_admin')" href="/admin">Osoby</a> </li>
+        <li><a sec:authorize="hasRole('ROLE_admin')" href="/edit-descriptions">Opisy</a> </li>
         <li><a sec:authorize="hasRole('ROLE_consultant')" href="/add">Dodaj magnes</a> </li>
     </ul>
     <ul class="right-side">

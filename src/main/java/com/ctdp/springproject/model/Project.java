@@ -11,11 +11,11 @@ public class Project {
     private Long id;
     @Column(unique = true)
     private String name;
-    private String redBadgeDescription;
-    private String greenBadgeDescription;
-    private String blueBadgeDescription;
-    private String yellowBadgeDescription;
-    private String orangeBadgeDescription;
+    private String redBadgeDescription = "opis";
+    private String greenBadgeDescription = "opis";
+    private String blueBadgeDescription = "opis";
+    private String yellowBadgeDescription = "opis";
+    private String orangeBadgeDescription = "opis";
     @OneToMany(mappedBy = "project")
     private List<BoardRecord> boardRecordList = new ArrayList<>();
 

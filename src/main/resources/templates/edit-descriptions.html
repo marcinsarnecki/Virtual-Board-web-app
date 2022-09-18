@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<head>
+  <meta charset="UTF-8">
+  <title>Opisy projektów</title>
+  <link rel="stylesheet" th:href="@{/css/edit-descriptions.css}" href="/../static/css/edit-descriptions.css">
+</head>
+<body>
+<nav class="nav-container">
+  <ul class="left-side">
+    <li><a href="/">Strona główna</a></li>
+    <li><a sec:authorize="hasRole('ROLE_admin')" href="/admin">Osoby</a> </li>
+    <li><a sec:authorize="hasRole('ROLE_admin')" href="/edit-descriptions">Opisy</a> </li>
+  </ul>
+  <ul class="right-side">
+    <li><a href="/change-password">Zmień hasło</a></li>
+    <li><a href="/logout">Wyloguj się</a></li>
+    <li><span th:text="${#authentication.name}">Username</span> </li>
+  </ul>
+</nav>
+<div>
+  &nbsp;
+  &nbsp;
+  <form th:href="@{/edit-descriptions}" method="post">
+    <table id="projects">
+      <tbody>
+      <tr>
+        <th><span class="white">Projekty</span></th>
+        <th><span class="red">Czerwony</span></th>
+        <th><span class="green">Zielony</span> </th>
+        <th><span class="blue">Niebieski</span></th>
+        <th><span class="yellow">Żółty</span></th>
+        <th><span class="orange">Pomarańczowy</span></th>
+      </tr>
+      <tr th:each="project, it : ${projects}">
+        <td><label th:text="${project.name}"></label>
+        <input type="hidden" name="projects" th:value="${project.name}"></td>
+        <td><label>
+          <input type="text" name="redDescriptions" th:value="${project.redBadgeDescription}">
+        </label></td>
+        <td><label>
+          <input type="text" name="greenDescriptions" th:value="${project.greenBadgeDescription}">
+        </label></td>
+        <td><label>
+          <input type="text" name="blueDescriptions" th:value="${project.blueBadgeDescription}">
+        </label></td>
+        <td><label>
+          <input type="text" name="yellowDescriptions" th:value="${project.yellowBadgeDescription}">
+        </label></td>
+        <td><label>
+          <input type="text" name="orangeDescriptions" th:value="${project.orangeBadgeDescription}">
+        </label></td>
+      </tr>
+      </tbody>
+    </table>
+    &nbsp;
+    <button type="submit">Zapisz</button>
+  </form>
+</div>
