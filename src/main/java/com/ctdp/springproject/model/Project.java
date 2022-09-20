@@ -16,7 +16,7 @@ public class Project {
     private String blueBadgeDescription = "opis";
     private String yellowBadgeDescription = "opis";
     private String orangeBadgeDescription = "opis";
-    @OneToMany(mappedBy = "project")
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<BoardRecord> boardRecordList = new ArrayList<>();
 
     public void addBoardRecord(BoardRecord boardRecord) {

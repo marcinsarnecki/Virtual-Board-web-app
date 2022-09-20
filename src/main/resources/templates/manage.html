@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj/usuń</title>
+    <link rel="stylesheet" th:href="@{/css/manage.css}" href="/../static/css/manage.css">
+</head>
+<body>
+<nav class="nav-container">
+    <ul class="left-side">
+        <li><a href="/">Strona główna</a></li>
+        <li><a sec:authorize="hasRole('ROLE_admin')" href="/admin">Osoby</a> </li>
+        <li><a sec:authorize="hasRole('ROLE_admin')" href="/edit-descriptions">Opisy</a> </li>
+        <li><a sec:authorize="hasRole('ROLE_admin')" href="/manage">Dodaj/usuń</a> </li>
+    </ul>
+    <ul class="right-side">
+        <li><a href="/change-password">Zmień hasło</a></li>
+        <li><a href="/logout">Wyloguj się</a></li>
+        <li><span th:text="${#authentication.name}">Username</span> </li>
+    </ul>
+</nav>
+
+
+<div class="table">
+    &nbsp;
+    &nbsp;
+    <form th:action="@{/delete-person}" method="post" class="tr">
+        <p class="td">Wybierz osobę do usunięcia</p>
+        <label class="td">
+            <select name="deletedPersonId">
+                <option selected disabled>Wybierz osobę</option>
+                <option th:each="person : ${personList}" th:value="${person.id}" th:text="|${person.surname} ${person.name}|"></option>
+            </select>
+        </label>
+        <button type="submit" class="td">Usuń</button>
+    </form>
+
+    <form th:action="@{/delete-project}" method="post" class="tr">
+        <p class="td">Wybierz projekt do usunięcia</p>
+        <label class="td">
+            <select name="deletedProjectId">
+                <option selected disabled>Wybierz projekt</option>
+                <option th:each="project : ${projectList}" th:value="${project.id}" th:text="${project.name}"></option>
+            </select>
+        </label>
+        <button type="submit" class="td">Usuń</button>
+    </form>
+
+    <form th:action="@{/add-project}" method="post" class="tr">
+        <p class="td">Stwórz nowy projekt</p>
+        <label class="td">
+            <input type="text" class="td" placeholder="Nazwa nowego projektu" name="newProjectName" required/>
+        </label>
+        <button type="submit" class="td">Dodaj</button>
+    </form>
+
+    <form th:action="@{/promote-person}" method="post" class="tr">
+        <p class="td">Awansuj na koordynatora</p>
+        <label class="td">
+            <select name="personId">
+                <option selected disabled>Wybierz osobę</option>
+                <option th:each="person : ${personList}" th:value="${person.id}" th:text="|${person.surname} ${person.name}|"></option>
+            </select>
+        </label>
+        <button type="submit" class="td">Awansuj</button>
+    </form>
+
+    <form th:action="@{/delete-person}" method="post" class="tr">
+        <p class="td">Usuń koordynatora</p>
+        <label class="td">
+            <select name="personId">
+                <option selected disabled>Wybierz osobę</option>
+                <option th:each="person : ${adminList}" th:value="${person.id}" th:text="|${person.surname} ${person.name}|"></option>
+            </select>
+        </label>
+        <button type="submit" class="td">Usuń</button>
+    </form>
+</div>

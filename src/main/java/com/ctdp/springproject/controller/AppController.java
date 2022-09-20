@@ -258,4 +258,62 @@ public class AppController {
                     orangeDescriptions.get(i));
         return "redirect:/";
     }
+    @GetMapping("/manage")
+    String managePage(Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<Project> projectList = projectService.findAllProjects();
+        model.addAttribute("projectList", projectList);
+        List<Person> personList = personService.findAllPersons();
+        List<PersonDto> personDtoList = new ArrayList<>();
+        List<PersonDto> adminDtoList = new ArrayList<>();
+        for(Person person: personList){
+            PersonDto personDto = new PersonDto();
+            personDto.setEmail(person.getEmail());
+            personDto.setName(person.getName());
+            personDto.setSurname(person.getSurname());
+            personDto.setId(person.getId());
+            if(Objects.equals(person.getRole(), "consultant"))
+                personDtoList.add(personDto);
+            else if(!Objects.equals(person.getEmail(), username))
+                adminDtoList.add(personDto);
+        }
+        personDtoList.sort((p1, p2) -> p1.getSurname().compareTo(p2.getSurname()));//sorting by surname alphabetically
+        adminDtoList.sort((p1, p2) -> p1.getSurname().compareTo(p2.getSurname()));
+        model.addAttribute("personList", personDtoList);
+        model.addAttribute("adminList", adminDtoList);
+        return "manage";
+    }
+    @Transactional
+    @PostMapping("/delete-person")
+    String deletePerson(Model model, @RequestParam(defaultValue = "-1") Long deletedPersonId) {
+        if(deletedPersonId != -1) {
+            personService.deletePersonById(deletedPersonId);
+        }
+        return "redirect:/";
+    }
+    @Transactional
+    @PostMapping("/delete-project")
+    String deleteProject(Model model, @RequestParam(defaultValue = "-1") Long deletedProjectId) {
+        System.out.println("deleted id = " + deletedProjectId);
+        if(deletedProjectId != -1) {
+            projectService.deleteProjectById(deletedProjectId);
+        }
+        return "redirect:/";
+    }
+    @Transactional
+    @PostMapping("/add-project")
+    String deleteProject(Model model, @RequestParam(defaultValue = "no-project") String newProjectName) {
+        if(!Objects.equals(newProjectName, "no-project")) {
+            projectService.add(newProjectName);
+        }
+        return "redirect:/";
+    }
+    @Transactional
+    @PostMapping("promote-person")
+    String promotePerson(Model model, @RequestParam(defaultValue = "-1") Long personId) {
+        if(personId != -1) {
+            personService.promoteToAdmin(personId);
+        }
+        return "redirect:/";
+    }
 }

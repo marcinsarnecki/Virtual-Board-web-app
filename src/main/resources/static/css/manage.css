@@ -1,0 +1,90 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    padding-top: 20px;/*35*/
+    margin: 5px;
+    background: rgb(255,255,253);
+    background: linear-gradient(90deg, rgba(255,255,253,1) 0%, rgba(206,200,255,1) 100%);
+    font-weight: 100;
+}
+
+.nav-container {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;/*navbar on tables when scrolling*/
+    display: flex;
+    justify-content: space-between;
+}
+
+.right-side, .left-side {
+    list-style-type: none;
+}
+
+.right-side li, .left-side li {
+    display: inline-block;
+}
+
+.right-side li a, .left-side li a {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.right-side li span {
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.table {
+    display: table;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 40%;
+}
+
+.tr {
+    display: table-row;
+
+}
+
+.td {
+    display: table-cell;
+    padding-bottom: 10px;
+}
+
+select, button, select option, input {
+    width: 180px;
+    padding: 5px;
+    height: 50px;
+    font-size: 15px;
+}
+
+select, button, input {
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: black;
+}
+
+select, button, select option {
+    cursor: pointer;
+}
+

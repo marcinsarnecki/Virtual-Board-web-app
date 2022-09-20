@@ -11,6 +11,7 @@
     <li><a href="/">Strona główna</a></li>
     <li><a sec:authorize="hasRole('ROLE_admin')" href="/admin">Osoby</a> </li>
     <li><a sec:authorize="hasRole('ROLE_admin')" href="/edit-descriptions">Opisy</a> </li>
+    <li><a sec:authorize="hasRole('ROLE_admin')" href="/manage">Dodaj/usuń</a> </li>
   </ul>
   <ul class="right-side">
     <li><a href="/change-password">Zmień hasło</a></li>

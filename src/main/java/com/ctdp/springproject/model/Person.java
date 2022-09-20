@@ -32,7 +32,7 @@ public class Person {
         this.email = email;
     }
 
-    @OneToMany(mappedBy = "person")
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardRecord> boardRecordList = new ArrayList<>();
 
 

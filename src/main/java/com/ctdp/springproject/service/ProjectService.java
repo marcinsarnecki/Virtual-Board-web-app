@@ -28,6 +28,10 @@ public class ProjectService {
         return project;
     }
     @Transactional
+    public void deleteProjectById(Long id) {
+        projectRepository.deleteById(id);
+    }
+    @Transactional
     public void setDescriptions(String name, String red, String green, String blue, String yellow, String orange) {
         try {
             Project project = projectRepository.findByName(name).orElseThrow();

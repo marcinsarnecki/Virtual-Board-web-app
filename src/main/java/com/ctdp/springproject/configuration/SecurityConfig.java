@@ -16,6 +16,7 @@ public class SecurityConfig {
                 //.mvcMatchers("/").permitAll()
                 .antMatchers("/admin").hasRole("admin")
                 .antMatchers("/edit-descriptions").hasRole("admin")
+                .antMatchers("/manage").hasRole("admin")
                 .mvcMatchers("/register", "registration-confirmation", "/registration-failed").permitAll()
                 .anyRequest().authenticated());
         http.formLogin(login -> login.loginPage("/login").defaultSuccessUrl("/", true).permitAll());

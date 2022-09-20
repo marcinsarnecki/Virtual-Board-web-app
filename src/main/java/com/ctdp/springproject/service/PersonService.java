@@ -64,7 +64,12 @@ public class PersonService {
         for(Long id: list)
             admin.addPersonRecord(new PersonRecord(id));
     }
-
+    @Transactional
+    public void promoteToAdmin(Long personId) {
+        Person person = personRepository.findById(personId).orElseThrow();
+        person.getBoardRecordList().clear();
+        person.setRole("admin");
+    }
     @Transactional
     public void register(PersonRegistrationDto personRegistrationDto) {
         Person person = new Person();
@@ -74,10 +79,6 @@ public class PersonService {
         person.setPassword(passwordEncoder.encode(personRegistrationDto.getPassword()));
         person.setRole("consultant");//domyslnie z poziomu rejestracji nowa osoba jest konsultantem, nie adminem
         personRepository.save(person);
-    }
-    @Transactional
-    public void changePassword(ChangePasswordDto changePasswordDto, Person person) {
-
     }
     @Transactional
     public List<Project> findAllProjectsByPersonId(Long id) {
@@ -106,6 +107,10 @@ public class PersonService {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+    @Transactional
+    public void deletePersonById(Long id) {
+        personRepository.deleteById(id);
     }
     public List<Person> findAllPersons() {
         return (List<Person>) personRepository.findAll();

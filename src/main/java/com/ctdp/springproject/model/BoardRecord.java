@@ -21,7 +21,7 @@ public class BoardRecord {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "board_record_id")
     private List<Badge> badgeList = new ArrayList<>();
 
