@@ -11,7 +11,7 @@ public class TableRecordDto {
 
 
     public TableRecordDto(BoardRecord boardRecord) {
-        this.name = boardRecord.getPerson().getName();
+        this.name = boardRecord.getPerson().getName() + " " + boardRecord.getPerson().getSurname();
         int idx = 0;
         for(int i = 0; i < 10; i++)
             badges[i] = "transparent.png";

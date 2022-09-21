@@ -2,6 +2,7 @@ package com.ctdp.springproject;
 
 import com.ctdp.springproject.dto.TableRecordDto;
 import com.ctdp.springproject.model.*;
+import com.ctdp.springproject.model.Color;
 import com.ctdp.springproject.service.BadgeService;
 import com.ctdp.springproject.service.BoardRecordService;
 import com.ctdp.springproject.service.PersonService;
@@ -13,14 +14,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Arrays;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
 
 @SpringBootApplication
 public class SpringProjectApplication {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		ConfigurableApplicationContext context = SpringApplication.run(SpringProjectApplication.class, args);
 		PersonService personService = context.getBean(PersonService.class);
 		BoardRecordService boardRecordService = context.getBean(BoardRecordService.class);
@@ -30,6 +37,7 @@ public class SpringProjectApplication {
 		boardRecordService.setProjectService(projectService);
 		addSampleData(personService, boardRecordService, projectService, badgeService);
 
+		/*
 		Scanner sc = new Scanner(System.in);
 		while(true) { //simple console to control database
 			System.out.println();
@@ -134,7 +142,42 @@ public class SpringProjectApplication {
 				for(PersonRecord personRecord: personRecordList)
 					System.out.println("id = " + personRecord.getPointer_id());
 			}
+			if(input == 14) {
+				projectService.clearAndSave();
+			}
 		}
+		*/
+		Timer timer = new Timer();//create tasks to reset boards every workday morning
+		TimerTask[] timerTask = new TimerTask[5];
+		for(int i = 0; i < 5; i++)
+			timerTask[i] = new TimerTask() {
+			@Override
+			public void run() {
+//				System.out.println("Timer task started at:"+new Date());
+				try {
+					projectService.clearAndSave();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+//				System.out.println("Timer task ended at:"+new Date());
+			}
+		};
+		Calendar currentDate = Calendar.getInstance();
+		Calendar[] days = new Calendar[5];
+		for(int i = 0; i < 5; i++) {
+			days[i] = Calendar.getInstance();
+			days[i].set(Calendar.DAY_OF_WEEK, i + 2);
+			days[i].set(Calendar.HOUR, 8);
+			days[i].set(Calendar.MINUTE, 0);
+			days[i].set(Calendar.SECOND, 0);
+			days[i].set(Calendar.AM_PM, 0);
+			if(currentDate.compareTo(days[i]) > 0)
+				days[i].add(Calendar.DAY_OF_MONTH, 7);
+		}
+//		for(int i = 0; i < 5; i++)
+//			System.out.println(days[i].getTime());
+		for(int i = 0; i < 5; i++)
+			timer.schedule(timerTask[i], days[i].getTime(), 1000 * 60 * 60 * 24 * 7);
 	}
 	@Bean
 	public PasswordEncoder bCryptPasswordEncoder() {
@@ -180,5 +223,4 @@ public class SpringProjectApplication {
 
 		personService.add("Marcin", "Sarnecki", "marcin.sarnecki44@gmail.com", "admin", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
 	}
-
 }

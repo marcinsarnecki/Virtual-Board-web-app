@@ -24,4 +24,8 @@ public class BadgeService {
     public void deleteById(Long id) {
         badgeRepository.deleteById(id);
     }
+
+    @Transactional
+    public void deleteAll() { badgeRepository.deleteCustom(); }
+
 }
