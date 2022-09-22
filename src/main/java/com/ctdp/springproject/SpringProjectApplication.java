@@ -36,130 +36,17 @@ public class SpringProjectApplication {
 		boardRecordService.setPersonService(personService);
 		boardRecordService.setProjectService(projectService);
 		addSampleData(personService, boardRecordService, projectService, badgeService);
-
-		/*
-		Scanner sc = new Scanner(System.in);
-		while(true) { //simple console to control database
-			System.out.println();
-			System.out.println("-1 exit");
-			System.out.println("1 add Person <name> <surname> <email> <role> <password hash>");
-			System.out.println("2 add Project <name>");
-			System.out.println("3 add PersonToProject <personId> <projectId>");
-			System.out.println("4 add Badge <personId> <projectId> <color>");
-			System.out.println("5 remove Badge <personId> <projectId> <color>");
-			System.out.println("6 find AllPersons");
-			System.out.println("7 find AllProjects");
-			System.out.println("8 find AllProjectsByPersonId <personId>");
-			System.out.println("9 find AllPersonsByProjectId <projectId>");
-			System.out.println("10 find AllBadgesByPersonAndProjectId <personId> <projectId>");
-			System.out.println("11 find BoardRecordsByProjectName <projectName>");
-			System.out.println("12 add PersonRecord <personId>");
-			System.out.println();
-			int input = sc.nextInt();
-			if(input == -1)
-				break;
-			if(input == 1) {
-				String name, surname, email, role, password;
-				name = sc.next();
-				surname = sc.next();
-				email = sc.next();
-				role = sc.next();
-				password = sc.next();
-				personService.add(name, surname, email, role, password);
-			}
-			if(input == 2) {
-				String name;
-				name = sc.next();
-				projectService.add(name);
-			}
-			if(input == 3) {
-				long personId, projectId;
-				personId = sc.nextLong();
-				projectId = sc.nextLong();
-				boardRecordService.addPersonToProject(personId, projectId);
-			}
-			if(input == 4) {
-				long personId, projectId;
-				int color;
-				personId = sc.nextLong();
-				projectId = sc.nextLong();
-				color = sc.nextInt();
-				boardRecordService.addBadge(personId, projectId, new Badge(Color.values()[color]));
-			}
-			if(input == 5) {
-				long personId, projectId;
-				int color;
-				personId = sc.nextLong();
-				projectId = sc.nextLong();
-				color = sc.nextInt();
-				boardRecordService.removeBadge(personId, projectId, new Badge(Color.values()[color]));
-			}
-			if(input == 6) {
-				List<Person> allPersons = personService.findAllPersons();
-				for(Person person: allPersons)
-					System.out.println(person);
-			}
-			if(input == 7) {
-				List<Project> allProjects = projectService.findAllProjects();
-				for(Project project: allProjects)
-					System.out.println(project);
-			}
-			if(input == 8) {
-				long id = sc.nextLong();
-				List<Project> projectList = personService.findAllProjectsByPersonId(id);
-				for(Project project: projectList)
-					System.out.println(project);
-			}
-			if(input == 9) {
-				long id = sc.nextLong();
-				List<Person> personList = projectService.findAllPersonsByProjectId(id);
-				for(Person person: personList)
-					System.out.println(person);
-			}
-			if(input == 10) {
-				long personId, projectId;
-				personId = sc.nextLong();
-				projectId = sc.nextLong();
-				List<Badge> badgeList = boardRecordService.findALlBadgesByPersonAndProjectId(personId, projectId);
-				for(Badge badge: badgeList)
-					System.out.println(badge.toString());
-			}
-			if(input == 11) {
-				String name;
-				name = sc.next();
-				List<BoardRecord> boardRecordList = projectService.findBoardRecordsByProjectName(name);
-				for(BoardRecord boardRecord: boardRecordList) {
-					System.out.println(boardRecord.toString());
-				}
-			}
-			if(input == 12) {
-				long personId;
-				personId = sc.nextLong();
-				personService.addPersonRecord("marcin.sarnecki44@gmail.com", personId);
-			}
-			if(input == 13) {
-				List<PersonRecord> personRecordList = personService.findAllPersonRecordsByAdminEmail("marcin.sarnecki44@gmail.com");
-				for(PersonRecord personRecord: personRecordList)
-					System.out.println("id = " + personRecord.getPointer_id());
-			}
-			if(input == 14) {
-				projectService.clearAndSave();
-			}
-		}
-		*/
 		Timer timer = new Timer();//create tasks to reset boards every workday morning
 		TimerTask[] timerTask = new TimerTask[5];
 		for(int i = 0; i < 5; i++)
 			timerTask[i] = new TimerTask() {
 			@Override
 			public void run() {
-//				System.out.println("Timer task started at:"+new Date());
 				try {
 					projectService.clearAndSave();
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 				}
-//				System.out.println("Timer task ended at:"+new Date());
 			}
 		};
 		Calendar currentDate = Calendar.getInstance();
@@ -174,8 +61,6 @@ public class SpringProjectApplication {
 			if(currentDate.compareTo(days[i]) > 0)
 				days[i].add(Calendar.DAY_OF_MONTH, 7);
 		}
-//		for(int i = 0; i < 5; i++)
-//			System.out.println(days[i].getTime());
 		for(int i = 0; i < 5; i++)
 			timer.schedule(timerTask[i], days[i].getTime(), 1000 * 60 * 60 * 24 * 7);
 	}

@@ -1,16 +1,24 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
   datasource:
-    username: admin
-    password:
-    url: jdbc:h2:mem:test
+    url: jdbc:postgresql://localhost:5432/database
+    username: postgres
+    password: 12345
+  #    username: admin
+#    password:
+#    url: jdbc:h2:mem:test
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: PostgreSQLDialect
   security:
     user:
       name: user
       password: 12345
+
 

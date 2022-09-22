@@ -107,7 +107,6 @@ public class ProjectService {
 
     @Transactional
     public void clearAndSave() throws IOException {//create images of boards and delete all badges
-        System.out.println("JESTEM TUTAJ!!!!!!!!");
         List<Project> projectList = this.findAllProjects();
         File backgroundTemplate = new File("src/main/resources/static/background-template.png");
         File red = new File("src/main/resources/static/red.png");
