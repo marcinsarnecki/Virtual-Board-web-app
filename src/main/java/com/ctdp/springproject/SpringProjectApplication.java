@@ -11,15 +11,8 @@ import com.ctdp.springproject.service.ProjectService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,15 +33,15 @@ public class SpringProjectApplication {
 		TimerTask[] timerTask = new TimerTask[5];
 		for(int i = 0; i < 5; i++)
 			timerTask[i] = new TimerTask() {
-			@Override
-			public void run() {
-				try {
-					projectService.clearAndSave();
-				} catch (IOException e) {
-					throw new RuntimeException(e);
+				@Override
+				public void run() {
+					try {
+						projectService.clearAndSave();
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
 				}
-			}
-		};
+			};
 		Calendar currentDate = Calendar.getInstance();
 		Calendar[] days = new Calendar[5];
 		for(int i = 0; i < 5; i++) {
@@ -63,10 +56,6 @@ public class SpringProjectApplication {
 		}
 		for(int i = 0; i < 5; i++)
 			timer.schedule(timerTask[i], days[i].getTime(), 1000 * 60 * 60 * 24 * 7);
-	}
-	@Bean
-	public PasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
 	}
 	static void addSampleData(PersonService personService, BoardRecordService boardRecordService, ProjectService projectService, BadgeService badgeService) {
 		if(personService.findPersonByEmail("root").isEmpty())

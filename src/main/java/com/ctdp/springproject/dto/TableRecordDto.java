@@ -3,7 +3,6 @@ package com.ctdp.springproject.dto;
 import com.ctdp.springproject.model.Badge;
 import com.ctdp.springproject.model.BoardRecord;
 import org.hibernate.Hibernate;
-import org.springframework.transaction.annotation.Transactional;
 
 public class TableRecordDto {
     public String name;
