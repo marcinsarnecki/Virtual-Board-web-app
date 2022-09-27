@@ -1,8 +1,9 @@
 package com.ctdp.springproject;
 
-import com.ctdp.springproject.dto.TableRecordDto;
-import com.ctdp.springproject.model.*;
+import com.ctdp.springproject.model.Badge;
 import com.ctdp.springproject.model.Color;
+import com.ctdp.springproject.model.Person;
+import com.ctdp.springproject.model.Project;
 import com.ctdp.springproject.service.BadgeService;
 import com.ctdp.springproject.service.BoardRecordService;
 import com.ctdp.springproject.service.PersonService;
@@ -14,15 +15,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @SpringBootApplication
 public class SpringProjectApplication {
@@ -69,43 +69,7 @@ public class SpringProjectApplication {
 		return new BCryptPasswordEncoder();
 	}
 	static void addSampleData(PersonService personService, BoardRecordService boardRecordService, ProjectService projectService, BadgeService badgeService) {
-		// sample data, random names, passwords 12345
-		Person person1 = personService.add("Jan", "Kowalski", "jk@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
-		Person person2 = personService.add("Adam", "Nowak", "an@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
-		Person person3 = personService.add("Przemek", "Jankowski", "pj@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
-		Person person4 = personService.add("Dominik", "Pawlak", "dp@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
-		Person person5 = personService.add("Piotr", "Zawadzki", "pz@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
-
-		Person person6 = personService.add("abc", "def", "ad@example.com","consultant", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
-
-
-		Project project1 = projectService.add("telefony");
-		Project project2 = projectService.add("laptopy");
-		Project project3 = projectService.add("5g");
-
-
-		boardRecordService.addPersonToProject(1L, 1L);
-		boardRecordService.addPersonToProject(1L, 2L);
-		boardRecordService.addPersonToProject(2L, 1L);
-		boardRecordService.addPersonToProject(3L, 2L);
-		boardRecordService.addPersonToProject(4L, 2L);
-		boardRecordService.addPersonToProject(5L, 3L);
-		boardRecordService.addPersonToProject(2L, 2L);
-		boardRecordService.addPersonToProject(2L, 3L);
-		boardRecordService.addPersonToProject(4L, 3L);
-		boardRecordService.addPersonToProject(5L, 2L);
-
-		boardRecordService.addPersonToProject(6L, 2L);
-
-		boardRecordService.addBadge(1L, 2L, new Badge(Color.ORANGE));
-		boardRecordService.addBadge(1L, 2L, new Badge(Color.GREEN));
-		boardRecordService.addBadge(1L, 2L, new Badge(Color.RED));
-		boardRecordService.addBadge(1L, 2L, new Badge(Color.GREEN));
-		boardRecordService.addBadge(2L, 1L, new Badge(Color.GREEN));
-		boardRecordService.addBadge(1L, 1L, new Badge(Color.GREEN));
-		boardRecordService.removeBadge(1L, 2L, new Badge(Color.ORANGE));
-		boardRecordService.addBadge(3L, 2L, new Badge(Color.RED));
-
-		personService.add("Marcin", "Sarnecki", "marcin.sarnecki44@gmail.com", "admin", "{bcrypt}$2a$12$9QkS/O.ewR2VQfM8fGFGTOoUyzEFQbHsBEXQZW6fg2Z1L/ebRL2by");
+		if(personService.findPersonByEmail("root").isEmpty())
+			personService.add("root", "root", "root", "admin", "{bcrypt}$2a$12$feoV/JU6cAOReIxEOY.JP.Al4txSi50H60Y66qB96yuPW.55p6SKa");//2aE70gvt
 	}
 }

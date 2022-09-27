@@ -1,15 +1,13 @@
 package com.ctdp.springproject.service;
 
-import com.ctdp.springproject.dto.ChangePasswordDto;
 import com.ctdp.springproject.dto.PersonRegistrationDto;
-import com.ctdp.springproject.model.PersonRecord;
-import com.ctdp.springproject.repository.PersonRecordRepository;
-import com.ctdp.springproject.repository.PersonRepository;
 import com.ctdp.springproject.model.BoardRecord;
 import com.ctdp.springproject.model.Person;
+import com.ctdp.springproject.model.PersonRecord;
 import com.ctdp.springproject.model.Project;
+import com.ctdp.springproject.repository.PersonRecordRepository;
+import com.ctdp.springproject.repository.PersonRepository;
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

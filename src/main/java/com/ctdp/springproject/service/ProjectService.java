@@ -158,7 +158,11 @@ public class ProjectService {
                 currentX = 25;
             }
             g.dispose();
-            File file = new File("src/main/resources/static/boards/" + fileName(projectName));
+            String path = "boards/";
+            File directory = new File(path);
+            if(!directory.exists())
+                directory.mkdir();
+            File file = new File(path + fileName(projectName));
             ImageIO.write(tableImage, "png", file);
         }
         badgeService.deleteAll();
