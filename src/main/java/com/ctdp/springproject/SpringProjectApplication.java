@@ -1,9 +1,5 @@
 package com.ctdp.springproject;
 
-import com.ctdp.springproject.model.Badge;
-import com.ctdp.springproject.model.Color;
-import com.ctdp.springproject.model.Person;
-import com.ctdp.springproject.model.Project;
 import com.ctdp.springproject.service.BadgeService;
 import com.ctdp.springproject.service.BoardRecordService;
 import com.ctdp.springproject.service.PersonService;
@@ -13,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,7 +17,7 @@ import java.util.TimerTask;
 @SpringBootApplication
 public class SpringProjectApplication {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args)  {
 		ConfigurableApplicationContext context = SpringApplication.run(SpringProjectApplication.class, args);
 		PersonService personService = context.getBean(PersonService.class);
 		BoardRecordService boardRecordService = context.getBean(BoardRecordService.class);
@@ -37,7 +34,7 @@ public class SpringProjectApplication {
 				public void run() {
 					try {
 						projectService.clearAndSave();
-					} catch (IOException e) {
+					} catch (IOException | URISyntaxException e) {
 						throw new RuntimeException(e);
 					}
 				}
@@ -59,6 +56,6 @@ public class SpringProjectApplication {
 	}
 	static void addSampleData(PersonService personService, BoardRecordService boardRecordService, ProjectService projectService, BadgeService badgeService) {
 		if(personService.findPersonByEmail("root").isEmpty())
-			personService.add("root", "root", "root", "admin", "{bcrypt}$2a$12$feoV/JU6cAOReIxEOY.JP.Al4txSi50H60Y66qB96yuPW.55p6SKa");//2aE70gvt
+			personService.add("root", "root", "root", "admin", "{bcrypt}$2a$12$feoV/JU6cAOReIxEOY.JP.Al4txSi50H60Y66qB96yuPW.55p6SKa");
 	}
 }

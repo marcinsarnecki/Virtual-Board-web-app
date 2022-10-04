@@ -14,6 +14,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,22 +108,28 @@ public class ProjectService {
     }
 
     @Transactional
-    public void clearAndSave() throws IOException {//create images of boards and delete all badges
+    public void clearAndSave() throws IOException, URISyntaxException {//create images of boards and delete all badges
         List<Project> projectList = this.findAllProjects();
-        File backgroundTemplate = new File("src/main/resources/static/background-template.png");
-        File red = new File("src/main/resources/static/red.png");
-        File green = new File("src/main/resources/static/green.png");
-        File blue = new File("src/main/resources/static/blue.png");
-        File yellow = new File("src/main/resources/static/yellow.png");
-        File orange = new File("src/main/resources/static/orange.png");
-        File transparent = new File("src/main/resources/static/transparent.png");
-        BufferedImage redImage = ImageIO.read(red);
-        BufferedImage greenImage = ImageIO.read(green);
-        BufferedImage blueImage = ImageIO.read(blue);
-        BufferedImage yellowImage = ImageIO.read(yellow);
-        BufferedImage orangeImage = ImageIO.read(orange);
-        BufferedImage transparentImage = ImageIO.read(transparent);
-        BufferedImage backgroundImage = ImageIO.read(backgroundTemplate);
+        boolean jar = this.getClass().getResource("ProjectService.class").toString().startsWith("jar");//check if run from jar or from intellij, different path to resources
+        BufferedImage redImage,greenImage, blueImage, yellowImage, orangeImage, transparentImage, backgroundImage;
+        if(jar) {
+            redImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("/static/red.png"));
+            greenImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("/static/green.png"));
+            blueImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("/static/blue.png"));
+            yellowImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("/static/yellow.png"));
+            orangeImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("/static/orange.png"));
+            transparentImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("/static/transparent.png"));
+            backgroundImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("/static/background-template.png"));
+        }
+        else {
+            redImage = ImageIO.read(new File("src/main/resources/static/red.png"));
+            greenImage = ImageIO.read(new File("src/main/resources/static/green.png"));
+            blueImage = ImageIO.read(new File("src/main/resources/static/blue.png"));
+            yellowImage = ImageIO.read(new File("src/main/resources/static/yellow.png"));
+            orangeImage = ImageIO.read(new File("src/main/resources/static/orange.png"));
+            transparentImage = ImageIO.read(new File("src/main/resources/static/transparent.png"));
+            backgroundImage = ImageIO.read(new File("src/main/resources/static/background-template.png"));
+        }
         Font font = new Font("Arial", Font.PLAIN, 20);
         if(projectList.isEmpty())
             return;
@@ -158,11 +166,12 @@ public class ProjectService {
                 currentX = 25;
             }
             g.dispose();
-            String path = "boards/";
+            String path = Paths.get("").toAbsolutePath().toString() + "/boards";
+            System.out.println("path = " + path);
             File directory = new File(path);
             if(!directory.exists())
                 directory.mkdir();
-            File file = new File(path + fileName(projectName));
+            File file = new File(path + "/" + fileName(projectName));
             ImageIO.write(tableImage, "png", file);
         }
         badgeService.deleteAll();
