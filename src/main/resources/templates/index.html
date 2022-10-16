@@ -26,8 +26,7 @@
       <h1 sec:authorize="hasRole('ROLE_admin')">Na ten moment nie obserwujesz żadnych konsultantów :(</h1>
   </div>
 <div class="container" th:unless="${size} eq 0">
-    &nbsp;
-        <form th:action="@{/add-badge}" method="post" th:each="mainTable, it : ${tables}">
+        <div th:each="mainTable, it : ${tables}">
             <table class="main_table">
                 <caption>
                     <span class="red" th:text="${descriptions[it.index][0]}">red</span>
@@ -50,21 +49,27 @@
             </table>
             &nbsp;
             <div sec:authorize="hasRole('ROLE_consultant')" class="choose_project">
-                <label>
-                    <select name="color" class="temp">
-                        <option selected disabled>Wybierz kolor</option>
-                        <option class="red" th:value="|red|">Czerwony</option>
-                        <option class="green" th:value="|green|">Zielony</option>
-                        <option class="blue" th:value="|blue|">Niebieski</option>
-                        <option class="orange" th:value="|orange|">Pomarańczowy</option>
-                        <option class="yellow" th:value="|yellow|">Żółty</option>
-                    </select>
-                </label>
-                <input type="hidden" name="project" th:value="${projects[it.index]}">
-                <button class="temp" type="submit">Dodaj</button>
+                <form th:action="@{/add-badge}" method="post">
+                    <label>
+                        <select name="color" class="temp">
+                            <option selected disabled>Wybierz kolor</option>
+                            <option class="red" th:value="|red|">Czerwony</option>
+                            <option class="green" th:value="|green|">Zielony</option>
+                            <option class="blue" th:value="|blue|">Niebieski</option>
+                            <option class="orange" th:value="|orange|">Pomarańczowy</option>
+                            <option class="yellow" th:value="|yellow|">Żółty</option>
+                        </select>
+                    </label>
+                    <input type="hidden" name="project" th:value="${projects[it.index]}">
+                    <button class="temp" type="submit">Dodaj</button>
+                </form>
+                <form th:action="@{/remove-last-badge}" method="post">
+                    <input type="hidden" name="project" th:value="${projects[it.index]}">
+                    <button class="temp" type="submit">Usuń ostatni magnes</button>
+                </form>
             </div>
             &nbsp;
-        </form>
+        </div>
 </div>
 </body>
 </html>

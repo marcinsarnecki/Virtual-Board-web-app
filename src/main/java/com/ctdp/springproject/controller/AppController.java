@@ -92,9 +92,13 @@ public class AppController {
     @GetMapping("/add")
     String add(Model model) {
         List<String> projectList = new ArrayList<>();
-        for(Project project: projectService.findAllProjects())
+        List<String[]> descriptions = new ArrayList<>();
+        for(Project project: projectService.findAllProjects()) {
             projectList.add(project.getName());
+            descriptions.add(project.getDescriptions());
+        }
         model.addAttribute("projectList", projectList);
+        model.addAttribute("descriptions", descriptions);
         return "add";
     }
     @Transactional
@@ -109,8 +113,6 @@ public class AppController {
                         case "orange" -> Color.ORANGE;
                         case "yellow" -> Color.YELLOW;
                         default -> Color.RED;}));
-        model.addAttribute("projectList", personService.findAllProjectsByPersonEmail(username));
-        model.addAttribute("mainTable", projectService.findTableRecordDtoListByProjectName(project));
         return "redirect:/";
     }
     @Transactional
@@ -118,13 +120,7 @@ public class AppController {
     String removeLastBadge(Model model, @RequestParam String project) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         boardRecordService.removeLastBadge(username, project);
-        model.addAttribute("project", project);
-        model.addAttribute("projectList", personService.findAllProjectsByPersonEmail(username));
-        model.addAttribute("mainTable", projectService.findTableRecordDtoListByProjectName(project));
-        return UriComponentsBuilder
-                .fromPath("redirect:")
-                .queryParam("project", project)
-                .build().toString();
+        return "redirect:/";
     }
     @GetMapping("/register")
     String registrationPage(Model model) {

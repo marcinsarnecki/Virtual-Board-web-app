@@ -99,11 +99,35 @@ select, button {
     align-items: center;
     justify-content: center;
     position: relative;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    padding-top: 50px;
 }
 
 .option_project {
     color: #dad5d5;
+}
+
+caption {
+    caption-side: bottom;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: #273238;
+}
+
+.main_table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+    padding-top: 15px;
+}
+
+.main_table thead th {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+    padding: 5px;
+}
+
+.main_table tbody td {
+    padding-left: 2px;
+    padding-right: 2px;
 }

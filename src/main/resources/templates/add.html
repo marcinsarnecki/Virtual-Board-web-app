@@ -40,5 +40,24 @@
     <button type="submit">Dodaj</button>
   </form>
 </div>
+&nbsp;
+<div th:each="project, it : ${projectList}">
+  <table class="main_table">
+    <caption>
+      <span class="red" th:text="${descriptions[it.index][0]}">red</span>
+      <span class="green" th:text="${descriptions[it.index][1]}">green</span>
+      <span class="blue" th:text="${descriptions[it.index][2]}">blue</span>
+      <span class="yellow" th:text="${descriptions[it.index][3]}">yellow</span>
+      <span class="orange" th:text="${descriptions[it.index][4]}">orange</span>
+    </caption>
+    <thead>
+    <tr>
+      <th colspan="15" th:text="${projectList[it.index]}">nazwa projektu</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
 </body>
 </html>
