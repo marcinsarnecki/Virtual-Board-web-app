@@ -68,7 +68,7 @@
     <form th:action="@{/delete-person}" method="post" class="tr">
         <p class="td">Usuń koordynatora</p>
         <label class="td">
-            <select name="personId">
+            <select name="deletedPersonId">
                 <option selected disabled>Wybierz osobę</option>
                 <option th:each="person : ${adminList}" th:value="${person.id}" th:text="|${person.surname} ${person.name}|"></option>
             </select>
