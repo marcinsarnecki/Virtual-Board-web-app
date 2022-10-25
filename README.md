@@ -10,7 +10,10 @@ A web application for  a magnet board. This is my first big project (simple html
 
 ## Table of Content
 
-[TOC]
+- [Introduction](#introduction)
+- [Motivation](#motivation)
+- [How it works?](#how-it-works?)
+- [Installation](#installation)
 
 
 
