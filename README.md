@@ -70,7 +70,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/boards
     username: postgres
     password: 12345
-	```
+```
 Then build jar file with Maven
 ```sh
 $ mvn package
